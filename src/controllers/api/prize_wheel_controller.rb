@@ -16,10 +16,6 @@ module Api
       begin
         spin_job_id = params[:spin_id]
         spin_result = Rails.cache.read("spin_result_#{spin_job_id}")
-        if spin_result.nil?
-          spin_result = { status: 'pending' }
-          # add a more robust handling mechanism for cache misses, such as logging or retrying.
-        end
         render json: spin_result
       rescue StandardError => e
         render json: { error: e.message }, status: :internal_server_error

@@ -19,7 +19,7 @@ module PrizeWheel
     def validate_eligibility
       return if @user.vip?
       if @user.spins_remaining <= 0
-        raise StandardError,"No spins remaining" # StandardError.new('No spins remaining')
+        raise StandardError,"No spins remaining"
       end
     end
 

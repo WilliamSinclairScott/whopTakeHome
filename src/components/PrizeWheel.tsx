@@ -14,13 +14,13 @@ interface SpinResult {
 
 const PrizeWheel: React.FC<PrizeWheelProps> = ({ userId, wheelId }) => {
   const [isSpinning, setIsSpinning] = useState(false);
-  const [result, setResult] = useState<SpinResult | null>({ status: 'pending' });
+  const [result, setResult] = useState<SpinResult | null>(null);
   const [spinId, setSpinId] = useState<string | null>(null);
   const [remainingSpins, setRemainingSpins] = useState<number | null>(null);
 
   const handleSpin = async () => {
     setIsSpinning(true);
-    setResult({ status: 'pending' });
+    setResult(null);
     setRemainingSpins(prevSpins => prevSpins !== null ? prevSpins - 1 : null);
 
     try {
@@ -32,6 +32,18 @@ const PrizeWheel: React.FC<PrizeWheelProps> = ({ userId, wheelId }) => {
       setIsSpinning(false);
     }
   };
+
+  useEffect(() => {
+    const fetchRemainingSpins = async () => {
+      try {
+        const response = await axios.get(`/api/users/${userId}/remaining_spins`);
+        setRemainingSpins(response.data.remaining_spins);
+      } catch (error) {
+        console.error('Error fetching remaining spins:', error);
+      }
+    };
+    fetchRemainingSpins();
+  }, [userId]);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
@@ -54,6 +66,7 @@ const PrizeWheel: React.FC<PrizeWheelProps> = ({ userId, wheelId }) => {
     if (spinId) {
       intervalId = setInterval(pollResult, 1000);
     }
+
   }, [spinId]);
 
   return (
