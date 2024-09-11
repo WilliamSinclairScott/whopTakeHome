@@ -6,3 +6,5 @@ Rails.application.routes.draw do
     get 'prize_wheel/:user_id/remaining_spins', to: 'prize_wheel#remaining_spins'
   end
 end
+
+# adding for PR to main
