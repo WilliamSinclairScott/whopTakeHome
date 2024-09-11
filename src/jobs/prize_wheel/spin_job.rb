@@ -49,7 +49,7 @@ module PrizeWheel
     def update_job_status(spin)
       # ApplicationJob in Ruby on Rails provides access to provider_job_id.
       job_id = self.provider_job_id
-      Rals.cache.write("spin_result_#{job_id}", { status: spin.status, prize: spin.prize&.name })
+      Rails.cache.write("spin_result_#{job_id}", { status: spin.status, prize: spin.prize&.name })
     end
   end
 end

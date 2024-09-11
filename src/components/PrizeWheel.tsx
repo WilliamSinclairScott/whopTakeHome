@@ -14,13 +14,13 @@ interface SpinResult {
 
 const PrizeWheel: React.FC<PrizeWheelProps> = ({ userId, wheelId }) => {
   const [isSpinning, setIsSpinning] = useState(false);
-  const [result, setResult] = useState<SpinResult | null>(null);
+  const [result, setResult] = useState<SpinResult | null>({ status: 'pending' });
   const [spinId, setSpinId] = useState<string | null>(null);
   const [remainingSpins, setRemainingSpins] = useState<number | null>(null);
 
   const handleSpin = async () => {
     setIsSpinning(true);
-    setResult(null);
+    setResult({ status: 'pending' });
     setRemainingSpins(prevSpins => prevSpins !== null ? prevSpins - 1 : null);
 
     try {
